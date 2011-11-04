@@ -1,0 +1,18 @@
+{
+   "background_page": "background.html",
+   "content_scripts": [ {
+      "js": [ "jquery.js", "cs.js" ],
+      "matches": [ "*://*.yammer.com/*" ]
+   } ],
+   "description": "improve Yammer. Please read long description.",
+   "icons": {
+      "128": "icon_128.png",
+      "16": "icon_16.png",
+      "48": "icon_48.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDQIJg79kOt6qUHci8I7avY9ywES6Zw2WYBxcVSBMTlDn4xd1yrou1K9+Jna1m/cDDYf/BxGvSUfnNAAhNc49hxG1KU+kUi6i+ncvi4nO2EkcEQqH+PUJSL5j5/a00ae04+9FxONLv+mKTlmltsQh/asEH1cyRmssP/VsvGHLAyUQIDAQAB",
+   "name": "iY - improved Yammer",
+   "options_page": "options.html",
+   "update_url": "http://clients2.google.com/service/update2/crx",
+   "version": "0.6"
+}

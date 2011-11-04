@@ -1,0 +1,185 @@
+<html>
+    <head>
+        <title>iY Options</title>
+        <script src="jquery.js"></script>
+
+        <link href='http://fonts.googleapis.com/css?family=Ubuntu:400,700' rel='stylesheet' type='text/css'></link>
+        <style>
+            * {
+                font-family: 'Ubuntu', sans-serif;
+                color: #666;
+            }
+
+            body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+            }
+
+            #wrapper {
+                width: 960px;
+                margin: 0 auto;
+                border: 1px solid #666;
+                border-top: 0;
+                border-radius: 0px 0px 5px 5px;
+                padding: 10px;
+            }
+
+            .button {
+                color: #666;
+                cursor: pointer;
+                font-size: 11px;
+                font-weight: bold;
+                height: 27px;
+                line-height: 27px;
+                min-width: 54px;
+                outline: medium none;
+                padding: 0 8px;
+                text-align: center;
+                text-decoration: none;
+                background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+                display: inline-block;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                font: Arial,Sans-serif;
+                border-radius: 2px 2px 2px 2px;
+                border-image: initial;
+            }
+
+            .button:hover {
+                background-image: -webkit-linear-gradient(top,#eee,#e0e0e0);
+                box-shadow:0px 0px 1px #cc0000;
+            }
+
+            input[type=text],input[type=password],select, textarea {
+                background: none repeat scroll 0 0 #FFFFFF !important;
+                border-color: #C0C0C0 !important;
+                border-radius: 1px 1px 1px 1px !important;
+                border-style: solid !important;
+                border-width: 1px !important;
+                font-size: 20px;
+
+            }
+            label {
+                font-size: 12px;
+                width: 400px;
+                display: inline-block;
+            }
+
+
+            input[type=text]:hover,input[type=password]:hover, select:hover,textarea:hover,textarea:focus, input[type=text]:focus,input[type=password]:focus,select:focus {
+                border: 1px solid #cc0000 !important;
+                box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) inset !important;
+                outline: medium none !important;
+            }
+
+            #status {
+                position: fixed;
+                width: 300px;
+                padding: 5px;
+                left: 50%;
+                margin-left: -150px;
+                background-color: #FFFFCC;
+                border-radius: 0px 0px 5px 5px;
+                border: 1px solid #666;
+                text-align:center;
+                display:none;
+            }
+
+            #links {
+                margin-top: 45px;
+            }
+
+            #form div:not(#save) {
+                margin-top: 10px;
+                border-bottom: 1px solid #666;
+                width: 425px;
+
+            }
+
+            #save {
+                margin-top: 20px;
+            }
+
+
+        </style>
+    </head>
+
+    <script type="text/javascript">
+        $(function() {
+            $('#save').click(function() {
+                var $chkBox = $('#form input[type=checkbox]'),
+                options = {};
+                $chkBox.each(function(_, elm) {
+                    var $elm = $(elm);
+                    options[$elm.attr('id')] = !!$elm.attr('checked');
+                });
+                
+                localStorage["options"] = JSON.stringify(options);
+                localStorage['optionsChanged'] = true;
+                
+                $('#status').text('options saved! :)')
+                .slideDown(100)
+                .delay(2500)
+                .slideUp(100);
+            });
+            
+            function populateForm(options) {
+                options = JSON.parse(options);
+                $.each(options, function(methodName, value) {
+                    $('#' + methodName).attr('checked', value);
+                })
+            }
+           
+            chrome.extension.sendRequest({
+                method: "getOptions"
+            }, function(options) {
+                populateForm(options);
+            });
+           
+        });
+    </script>
+
+    <body>
+        <div id="status">
+        </div>    
+        <div id="wrapper">
+            <h1>
+                iY - improved Yammer
+            </h1>
+            <h2>
+                Configure iY Features
+            </h2>
+
+            <div id="form">
+                <div>
+                    <label for="hideSidebarStuff">Remove network information / profile progress box</label>
+                    <input type="checkbox" id="hideSidebarStuff"></input>
+                </div>
+                <div>
+                    <label for="fixHeader">Fix Header on top</label>
+                    <input type="checkbox" id="fixHeader"></input>
+                </div>
+                <div>
+                    <label for="headerScrollToTop">Scroll to top when Header is clicked</label>
+                    <input type="checkbox" id="headerScrollToTop"></input>
+                </div>
+                <div>
+                    <label for="fixLeftSidebar">Fix left Sidebar on top when document is scrolled to its position</label>
+                    <input type="checkbox" id="fixLeftSidebar"></input>
+                </div>
+
+                <div id="save">
+                    <button  class="button">save</button>
+                </div>
+            </div>
+
+            <div id="links">
+                <a class="button" href="http://goo.gl/m0IZ1" target="_blank">Try my other extensions :)</a>
+                <a class="button" href="http://goo.gl/5Ouxf" target="_blank">Circle me on Google Plus</a>
+                <a class="button" href="http://goo.gl/QYa5W" target="_blank">Follow me on GitHub</a>
+                <a class="button" href="http://goo.gl/imKQa" target="_blank">Read my blog (German)</a>
+            </div>
+        </div>
+    </body>
+
+</html>

@@ -1,0 +1,28 @@
+<html>
+    <script>
+        chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+            if (request.method == "getOptions") {
+                var options;
+                var defaults = {
+                    hideSidebarStuff: true,
+                    fixHeader: true,
+                    headerScrollToTop: true,
+                    fixLeftSidebar: true
+                };
+                
+                if(!localStorage["optionsChanged"]) {
+                    options = JSON.stringify(defaults);
+                } else {
+                    options = localStorage["options"];
+                }
+                    
+                sendResponse(options);
+            }
+               
+            else {
+                sendResponse({});
+            }
+                
+        });
+    </script>
+</html>
